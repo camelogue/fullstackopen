@@ -17,14 +17,14 @@ const StatisticLine = ({text, value}) => {
 
 const Statistics = ({good, neutral, bad}) => {
   const all = good + neutral + bad
-  const average = (good - bad) / all
-  const positive = good / all * 100
   
-  if (all == 0) {
+  if (all === 0) {
     return (
       <p>No feedback given</p>
     )
   } else {
+    const average = (good - bad) / all
+    const positive = good / all * 100
     return (
       <table>
         <tbody>
@@ -45,26 +45,22 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
-  const increseGood = () => {
+  const increaseGood = () => {
     setGood(good + 1)
   }
-  const increseNeutral = () => {
+  const increaseNeutral = () => {
     setNeutral(neutral + 1)
   }
-  const increseBad = () => {
+  const increaseBad = () => {
     setBad(bad + 1)
   }
-
-  const all = good + neutral + bad
-  const average = (good - bad) / all
-  const positive = good / all * 100
 
   return (
     <div>
       <h1>give feedback</h1>
-      <Button text='good' onClick={increseGood} />
-      <Button text='neutral' onClick={increseNeutral} />
-      <Button text='bad' onClick={increseBad} />
+      <Button text='good' onClick={increaseGood} />
+      <Button text='neutral' onClick={increaseNeutral} />
+      <Button text='bad' onClick={increaseBad} />
       <h1>statistics</h1>
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
