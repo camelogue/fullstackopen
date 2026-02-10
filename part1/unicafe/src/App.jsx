@@ -16,17 +16,23 @@ const Statistics = ({good, neutral, bad}) => {
   const all = good + neutral + bad
   const average = (good - bad) / all
   const positive = good / all * 100
-
-  return (
-    <>
-      <Display text='good' value={good} />
-      <Display text='neutral' value={neutral} />
-      <Display text='bad' value={bad} />
-      <Display text='all' value={all} />
-      <Display text='average' value={average} />
-      <Display text='positive' value={positive + ' %'} />  
-    </>
-  )
+  
+  if (all == 0) {
+    return (
+      <p>No feedback given</p>
+    )
+  } else {
+    return (
+      <>
+        <Display text='good' value={good} />
+        <Display text='neutral' value={neutral} />
+        <Display text='bad' value={bad} />
+        <Display text='all' value={all} />
+        <Display text='average' value={average} />
+        <Display text='positive' value={positive + ' %'} />  
+      </>
+    )
+  }
 }
 
 const App = () => {
