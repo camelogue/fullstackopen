@@ -14,8 +14,9 @@ const Part = (props) => (
 
 const Total = (props) => {
   const exercises = props.parts.map(part => part.exercises)
+  const total = exercises.reduce((partialSum, a) => partialSum + a, 0)
   return (
-    <p>total of {exercises.reduce((partialSum, a) => partialSum + a, 0)} exercises</p>
+    <p>total of {total} exercises</p>
   )
 }
 
