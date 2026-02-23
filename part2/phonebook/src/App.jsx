@@ -5,6 +5,7 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 
 import personService from './services/persons'
+import axios from 'axios'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -40,6 +41,17 @@ const App = () => {
     }
   }
 
+  const handleDeletePerson = (id) => {
+    if (window.confirm(`Delete ${persons.find(person => person.id === id).name}?`)) {
+      personService
+        .deletePerson(id)
+        .then(deletedPerson => {
+          console.log(deletedPerson)
+          setPersons(persons.filter(person => person.id !== deletedPerson.id))
+        })
+    }
+  }
+
   const personsToShow = persons.filter(person => person.name.toLowerCase().search(keyword.toLowerCase()) !== -1)
   
   const handleKeywordChange = (event) => {
@@ -58,7 +70,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
-      <Filter keyword={keyword} handleKeywordChange={handleKeywordChange}/>
+      <Filter keyword={keyword} handleKeywordChange={handleKeywordChange} />
 
       <h3>Add a new</h3>
 
@@ -66,7 +78,7 @@ const App = () => {
 
       <h3>Numbers</h3>
       
-      <Persons personsToShow={personsToShow}/>
+      <Persons personsToShow={personsToShow} onDelete={handleDeletePerson} />
     </div>
   )
 }
