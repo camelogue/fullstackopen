@@ -5,7 +5,6 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 
 import personService from './services/persons'
-import axios from 'axios'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -23,8 +22,17 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    if (persons.findIndex(person => person.name === newName) !== -1) {
-      alert(`${newName} is already added to phonebook`)
+    const existingPerson = persons.find(person => person.name === newName)
+    if (existingPerson !== undefined) {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        personService
+          .update(existingPerson.id, {...existingPerson, number: newNumber})
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id === returnedPerson.id ? returnedPerson : person))
+            setNewName('')
+            setNewNumber('')
+          })
+      }
     } else {
       const personObject = {
         name: newName,
@@ -46,7 +54,6 @@ const App = () => {
       personService
         .deletePerson(id)
         .then(deletedPerson => {
-          console.log(deletedPerson)
           setPersons(persons.filter(person => person.id !== deletedPerson.id))
         })
     }
