@@ -3,14 +3,17 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 
 import personService from './services/persons'
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [keyword, setKeyword] = useState('')
+  const [notificationProps, setNotificatonProps] = useState(null)
 
   useEffect(() => {
     personService
@@ -29,6 +32,13 @@ const App = () => {
           .update(existingPerson.id, {...existingPerson, number: newNumber})
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id === returnedPerson.id ? returnedPerson : person))
+            setNotificatonProps({
+              message: `Updated ${returnedPerson.name}`,
+              type: 'success'
+            })
+            setTimeout(() => {
+              setNotificatonProps(null)
+            }, 5000)
             setNewName('')
             setNewNumber('')
           })
@@ -43,6 +53,13 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setNotificatonProps({
+            message: `Added ${returnedPerson.name}`,
+            type: 'success'
+          })
+          setTimeout(() => {
+            setNotificatonProps(null)
+          }, 5000)
           setNewName('')
           setNewNumber('')
         })
@@ -76,6 +93,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification notificationProps={notificationProps} />
 
       <Filter keyword={keyword} handleKeywordChange={handleKeywordChange} />
 
