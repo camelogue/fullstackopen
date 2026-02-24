@@ -42,6 +42,16 @@ const App = () => {
             setNewName('')
             setNewNumber('')
           })
+          .catch(error => {
+            setNotificatonProps({
+              message: `Information of ${existingPerson.name} has already been removed from server`,
+              type: 'error'
+            })
+            setPersons(persons.filter(person => person.id !== existingPerson.id))
+            setTimeout(() => {
+              setNotificatonProps(null)
+            }, 5000)
+          })
       }
     } else {
       const personObject = {
@@ -67,11 +77,28 @@ const App = () => {
   }
 
   const handleDeletePerson = (id) => {
-    if (window.confirm(`Delete ${persons.find(person => person.id === id).name}?`)) {
+    const personToBeDeleted = persons.find(person => person.id === id)
+    if (window.confirm(`Delete ${personToBeDeleted.name}?`)) {
       personService
         .deletePerson(id)
         .then(deletedPerson => {
           setPersons(persons.filter(person => person.id !== deletedPerson.id))
+          setNotificatonProps({
+            message: `Deleted ${personToBeDeleted.name}`,
+            type: 'success'
+          })
+          setTimeout(() => {
+            setNotificatonProps(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setNotificatonProps({
+            message: `Information of ${personToBeDeleted.name} has already been removed from server`,
+            type: 'error'
+          })
+          setTimeout(() => {
+            setNotificatonProps(null)
+          }, 5000)
         })
     }
   }
