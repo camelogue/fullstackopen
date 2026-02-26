@@ -81,8 +81,8 @@ const App = () => {
     if (window.confirm(`Delete ${personToBeDeleted.name}?`)) {
       personService
         .deletePerson(id)
-        .then(deletedPerson => {
-          setPersons(persons.filter(person => person.id !== deletedPerson.id))
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
           setNotificatonProps({
             message: `Deleted ${personToBeDeleted.name}`,
             type: 'success'

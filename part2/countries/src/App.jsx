@@ -54,7 +54,7 @@ const App = () => {
 
   return (
     <div>
-      find countries <Filter value={keyword} handleKeywordChange={handleKeywordChange} />
+      find countries <Filter keyword={keyword} handleKeywordChange={handleKeywordChange} />
       <ContentArea countries={chosenCountry ? [chosenCountry] : countriesToShow} setChosenCountry={setChosenCountry} weather={weather} onShow={handleShowCountry} />
     </div>
   )
