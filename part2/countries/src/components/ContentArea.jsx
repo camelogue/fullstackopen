@@ -1,6 +1,7 @@
 import CountryInfo from './CountryInfo'
+import WeatherInfo from './WeatherInfo'
 
-const ContentArea = ({countries, onShow}) => {
+const ContentArea = ({countries, weather, onShow}) => {
     if (countries.length > 10) {
         return <p>Too many matches, specify another filter</p>
     } else if (countries.length > 1) {
@@ -16,7 +17,8 @@ const ContentArea = ({countries, onShow}) => {
     } else if (countries.length === 1) {
         return (
             <div>
-                <CountryInfo country={countries[0]} />
+                <CountryInfo country={countries[0]} weather={weather} />
+                {weather ? <WeatherInfo weather={weather} /> : null}
             </div>
         )
     } else 
